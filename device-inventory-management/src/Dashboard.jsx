@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import DocumentViewer from "./DocumentViewer";
 
 const MedicalDeviceInventory = () => {
   const [devices, setDevices] = useState([]);
@@ -19,6 +20,8 @@ const MedicalDeviceInventory = () => {
         type: "Imaging",
         serialNumber: "XR-12345",
         location: "Radiology",
+        documentUrl:
+          "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
       },
       {
         id: 2,
@@ -26,6 +29,8 @@ const MedicalDeviceInventory = () => {
         type: "Imaging",
         serialNumber: "MRI-67890",
         location: "Radiology",
+        documentUrl:
+          "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
       },
       {
         id: 3,
@@ -33,6 +38,8 @@ const MedicalDeviceInventory = () => {
         type: "Life Support",
         serialNumber: "VENT-54321",
         location: "ICU",
+        documentUrl:
+          "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
       },
     ]);
   }, []);
@@ -78,6 +85,14 @@ const MedicalDeviceInventory = () => {
     setEditingDevice(null);
   };
 
+  const [showDocumentViewer, setShowDocumentViewer] = useState(false);
+  const [currentDocumentUrl, setCurrentDocumentUrl] = useState("");
+
+  const handleViewDocument = (url) => {
+    setCurrentDocumentUrl(url);
+    setShowDocumentViewer(true);
+  };
+
   return (
     <div>
       <h2>Medical Device Inventory Dashboard</h2>
@@ -105,6 +120,9 @@ const MedicalDeviceInventory = () => {
                 <button onClick={() => startEditing(device)}>Edit</button>
                 <button onClick={() => handleDeleteDevice(device.id)}>
                   Delete
+                </button>
+                <button onClick={() => handleViewDocument(device.documentUrl)}>
+                  View Document
                 </button>
               </td>
             </tr>
@@ -208,6 +226,13 @@ const MedicalDeviceInventory = () => {
             </label>
             <button type="submit">Add Device</button>
           </form>
+        </div>
+      )}
+
+      {showDocumentViewer && (
+        <div className="document-viewer-overlay">
+          <button onClick={() => setShowDocumentViewer(false)}>Close</button>
+          <DocumentViewer pdfUrl={currentDocumentUrl} />
         </div>
       )}
     </div>
