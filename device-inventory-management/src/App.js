@@ -1,10 +1,10 @@
 import "./App.css";
-
+import MedicalDeviceInventory from "./Dashboard";
 function App() {
   return (
     <>
-      <h1>Entrypoint</h1>
-      <h1>End point 8889327306</h1>
+      <MedicalDeviceInventory />
+      <h1>Hello</h1>
     </>
   );
 }
