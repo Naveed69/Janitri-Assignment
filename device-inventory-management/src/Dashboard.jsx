@@ -11,8 +11,6 @@ const MedicalDeviceInventory = () => {
         type: "Imaging",
         serialNumber: "XR-12345",
         location: "Radiology",
-        documentUrl:
-          "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
       },
       {
         id: 2,
@@ -20,8 +18,6 @@ const MedicalDeviceInventory = () => {
         type: "Imaging",
         serialNumber: "MRI-67890",
         location: "Radiology",
-        documentUrl:
-          "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
       },
       {
         id: 3,
@@ -29,15 +25,26 @@ const MedicalDeviceInventory = () => {
         type: "Life Support",
         serialNumber: "VENT-54321",
         location: "ICU",
-        documentUrl:
-          "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
       },
     ]);
   }, []);
-
-  console.log(devices);
-  const DeleteEntry = (id) => {
-    console.log(id);
+  const device = {
+    id: 4,
+    name: "BP Machine",
+    type: "Life Support",
+    serialNumber: "BP-54321",
+    location: "ICU",
+  };
+  const addEntry = (device) => {
+    setDevices([...devices, {
+      id: device.id,
+      name: device.name,
+      type: device.type,
+      serialNumber: device.serialNumber,
+      location: device.location,
+    }]);
+  };
+  const deleteEntry = (id) => {
     setDevices(devices.filter((d) => d.id !== id));
   };
   return (
@@ -57,14 +64,17 @@ const MedicalDeviceInventory = () => {
                 <td>{device.id}</td>
                 <td>{device.name}</td>
                 <td>{device.serialNumber}</td>
+
                 <td>
-                  <button onClick={() => DeleteEntry(device.id)}>Delete</button>
+                  <button onClick={() => deleteEntry(device.id)}>Delete</button>
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+
+      <button onClick={() => addEntry(device)}>Add</button>
     </>
   );
 };
