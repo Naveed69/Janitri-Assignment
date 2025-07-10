@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const MedicalDeviceInventory = () => {
   const [devices, setDevices] = useState([]);
+  const [addIsOn, setAddIsOn] = useState(false);
 
   useEffect(() => {
     setDevices([
@@ -36,13 +37,16 @@ const MedicalDeviceInventory = () => {
     location: "ICU",
   };
   const addEntry = (device) => {
-    setDevices([...devices, {
-      id: device.id,
-      name: device.name,
-      type: device.type,
-      serialNumber: device.serialNumber,
-      location: device.location,
-    }]);
+    setDevices([
+      ...devices,
+      {
+        id: device.id,
+        name: device.name,
+        type: device.type,
+        serialNumber: device.serialNumber,
+        location: device.location,
+      },
+    ]);
   };
   const deleteEntry = (id) => {
     setDevices(devices.filter((d) => d.id !== id));
@@ -73,8 +77,16 @@ const MedicalDeviceInventory = () => {
           })}
         </tbody>
       </table>
+      {addIsOn ? (
+        <>
+          <h2>Please Fill New Device Details</h2>
+          <button onClick={() => addEntry(device)}>Add</button>
+        </>
+      ) : (
+        <></>
+      )}
 
-      <button onClick={() => addEntry(device)}>Add</button>
+      <button onClick={() => setAddIsOn(true)}>Add New Device</button>
     </>
   );
 };
