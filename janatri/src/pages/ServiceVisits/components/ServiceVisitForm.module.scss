@@ -1,0 +1,16 @@
+.formCard {
+  margin-bottom: 2rem;
+  padding: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-top: 1rem;
+}

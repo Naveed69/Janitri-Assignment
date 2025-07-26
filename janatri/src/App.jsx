@@ -1,20 +1,30 @@
-import { useState } from "react";
-
-import "./App.css";
+import React from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Devices from "./pages/Devices/Devices";
+import Installations from "./pages/Installations/Installations";
+import { Button } from "@mui/material";
+import ServiceVisits from "./pages/ServiceVisits/ServiceVisits";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div></div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+    <BrowserRouter>
+      <div style={{ display: "flex", gap: "1rem", padding: "1rem" }}>
+        <Button component={Link} to="/" variant="outlined">
+          Devices
+        </Button>
+        <Button component={Link} to="/installations" variant="outlined">
+          Installations
+        </Button>
+        <Button component={Link} to="/visits" variant="outlined">
+          Service Visits
+        </Button>
       </div>
-    </>
+      <Routes>
+        <Route path="/" element={<Devices />} />
+        <Route path="/installations" element={<Installations />} />
+        <Route path="/visits" element={<ServiceVisits />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
