@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { deleteDevice } from "../../features/devices/devicesSlice";
+import { deleteDeviceAndContracts } from "../../features/devices/devicesSlice";
 import {
   Button,
   Table,
@@ -17,6 +18,11 @@ function Devices() {
   const devices = useSelector((state) => state.devices);
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(null);
+
+  const handleDelete = (id) => {
+    dispatch(deleteDevice(id));
+    dispatch(deleteDeviceAndContracts(id));
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -43,10 +49,7 @@ function Devices() {
               <TableCell>{device.location}</TableCell>
               <TableCell>
                 <Button onClick={() => setEditing(device)}>Edit</Button>
-                <Button
-                  color="error"
-                  onClick={() => dispatch(deleteDevice(device.id))}
-                >
+                <Button color="error" onClick={() => handleDelete(device.id)}>
                   Delete
                 </Button>
               </TableCell>

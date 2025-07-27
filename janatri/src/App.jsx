@@ -4,7 +4,7 @@ import Devices from "./pages/Devices/Devices";
 import Installations from "./pages/Installations/Installations";
 import { Button } from "@mui/material";
 import ServiceVisits from "./pages/ServiceVisits/ServiceVisits";
-
+import Contracts from "./pages/Contracts/Contracts";
 function App() {
   return (
     <BrowserRouter>
@@ -18,11 +18,15 @@ function App() {
         <Button component={Link} to="/visits" variant="outlined">
           Service Visits
         </Button>
+        <Button component={Link} to="/contracts" variant="outlined">
+          Contracts
+        </Button>
       </div>
       <Routes>
         <Route path="/" element={<Devices />} />
         <Route path="/installations" element={<Installations />} />
         <Route path="/visits" element={<ServiceVisits />} />
+        <Route path="/contracts" element={<Contracts />} />
       </Routes>
     </BrowserRouter>
   );

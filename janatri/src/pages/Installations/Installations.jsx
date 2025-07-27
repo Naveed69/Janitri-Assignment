@@ -1,5 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
-import { deleteInstallation } from "../../features/installations/installationsSlice";
+import {
+  deleteInstallation,
+  markInstallationComplete,
+} from "../../features/installations/installationsSlice";
 import InstallationForm from "../../components/InstallationForm";
 import { useState } from "react";
 import {
@@ -21,7 +24,7 @@ function Installations() {
 
   const getDeviceName = (id) => {
     const device = devices.find((d) => d.id === id);
-    return device ? device.name : "Unknown";
+    return device ? device.name : "Deleted Device";
   };
 
   return (
@@ -39,6 +42,7 @@ function Installations() {
             <TableCell>Facility</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Technician</TableCell>
+            <TableCell>Status</TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -50,6 +54,16 @@ function Installations() {
               <TableCell>{i.date}</TableCell>
               <TableCell>{i.technician}</TableCell>
               <TableCell>
+                <span
+                  style={{
+                    color: i.status === "Completed" ? "green" : "orange",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {i.status || "Pending"}
+                </span>
+              </TableCell>
+              <TableCell>
                 <Button onClick={() => setEditing(i)}>Edit</Button>
                 <Button
                   color="error"
@@ -57,6 +71,14 @@ function Installations() {
                 >
                   Delete
                 </Button>
+                {i.status !== "Completed" && (
+                  <Button
+                    color="success"
+                    onClick={() => dispatch(markInstallationComplete(i.id))}
+                  >
+                    Mark Installed
+                  </Button>
+                )}
               </TableCell>
             </TableRow>
           ))}

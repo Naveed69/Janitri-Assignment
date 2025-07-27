@@ -7,7 +7,8 @@ const installationsSlice = createSlice({
   initialState,
   reducers: {
     addInstallation: (state, action) => {
-      const updated = [...state, action.payload];
+      const newInstall = { ...action.payload, status: "Pending" };
+      const updated = [...state, newInstall];
       localStorage.setItem("installations", JSON.stringify(updated));
       return updated;
     },
@@ -23,9 +24,19 @@ const installationsSlice = createSlice({
       localStorage.setItem("installations", JSON.stringify(updated));
       return updated;
     },
+    markInstallationComplete(state, action) {
+      const install = state.find((i) => i.id === action.payload);
+      if (install) {
+        install.status = "Completed";
+      }
+    },
   },
 });
 
-export const { addInstallation, updateInstallation, deleteInstallation } =
-  installationsSlice.actions;
+export const {
+  addInstallation,
+  updateInstallation,
+  deleteInstallation,
+  markInstallationComplete,
+} = installationsSlice.actions;
 export default installationsSlice.reducer;

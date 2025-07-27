@@ -5,6 +5,7 @@ import { deleteServiceVisit } from "../../../features/serviceVisits/serviceVisit
 import { Card, CardContent, Typography, IconButton, Grid } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { markServiceDone } from "../../../features/serviceVisits/serviceVisitsSlice";
 
 const ServiceVisitList = ({ setEditingId }) => {
   const dispatch = useDispatch();
@@ -48,6 +49,21 @@ const ServiceVisitList = ({ setEditingId }) => {
                   >
                     <DeleteIcon fontSize="small" />
                   </IconButton>
+                  <Typography variant="body2">
+                    <strong>Status:</strong>{" "}
+                    {visit.status === "done" ? "✅ Completed" : "⏳ Pending"}
+                  </Typography>
+
+                  {visit.status === "pending" && (
+                    <IconButton
+                      size="small"
+                      onClick={() => dispatch(markServiceDone(visit.id))}
+                      variant="outlined"
+                      sx={{ marginTop: "0.5rem" }}
+                    >
+                      Mark as Done
+                    </IconButton>
+                  )}
                 </div>
               </CardContent>
             </Card>
