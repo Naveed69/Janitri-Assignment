@@ -13,6 +13,10 @@ import {
   TableBody,
   Typography,
   Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import styles from "./Installations.module.scss";
 
@@ -21,10 +25,26 @@ function Installations() {
   const devices = useSelector((state) => state.devices);
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const getDeviceName = (id) => {
     const device = devices.find((d) => d.id === id);
     return device ? device.name : "Deleted Device";
+  };
+
+  const handleEdit = (record) => {
+    setEditing(record);
+    setOpen(true);
+  };
+
+  const handleAdd = () => {
+    setEditing(null);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setEditing(null);
+    setOpen(false);
   };
 
   return (
@@ -33,7 +53,25 @@ function Installations() {
         Installations
       </Typography>
 
-      <InstallationForm editing={editing} clearEdit={() => setEditing(null)} />
+      <Button variant="contained" sx={{ mb: 2 }} onClick={handleAdd}>
+        Add Installation
+      </Button>
+
+      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+        <DialogTitle>
+          {editing ? "Edit Installation" : "Add Installation"}
+        </DialogTitle>
+        <DialogContent>
+          <InstallationForm
+            editing={editing}
+            clearEdit={() => setEditing(null)}
+            closeForm={handleClose}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
 
       <Table>
         <TableHead>
@@ -64,7 +102,7 @@ function Installations() {
                 </span>
               </TableCell>
               <TableCell>
-                <Button onClick={() => setEditing(i)}>Edit</Button>
+                <Button onClick={() => handleEdit(i)}>Edit</Button>
                 <Button
                   color="error"
                   onClick={() => dispatch(deleteInstallation(i.id))}

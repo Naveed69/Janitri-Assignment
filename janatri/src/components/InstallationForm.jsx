@@ -7,7 +7,7 @@ import {
 } from "../features/installations/installationsSlice";
 import { v4 as uuidv4 } from "uuid";
 
-const InstallationForm = ({ editing, clearEdit }) => {
+const InstallationForm = ({ editing, clearEdit, closeForm }) => {
   const [form, setForm] = useState({
     deviceId: "",
     facility: "",
@@ -31,6 +31,7 @@ const InstallationForm = ({ editing, clearEdit }) => {
       dispatch(addInstallation({ ...form, id: uuidv4() }));
     }
     setForm({ deviceId: "", facility: "", date: "", technician: "" });
+    closeForm();
   };
 
   return (

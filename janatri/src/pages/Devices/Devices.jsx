@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { deleteDevice } from "../../features/devices/devicesSlice";
-import { deleteDeviceAndContracts } from "../../features/devices/devicesSlice";
+import {
+  deleteDevice,
+  deleteDeviceAndContracts,
+} from "../../features/devices/devicesSlice";
 import {
   Button,
   Table,
@@ -9,6 +11,10 @@ import {
   TableHead,
   TableRow,
   Typography,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogActions,
 } from "@mui/material";
 import DeviceForm from "../../components/DeviceForm";
 import { useState } from "react";
@@ -18,10 +24,26 @@ function Devices() {
   const devices = useSelector((state) => state.devices);
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const handleDelete = (id) => {
     dispatch(deleteDevice(id));
     dispatch(deleteDeviceAndContracts(id));
+  };
+
+  const handleEdit = (device) => {
+    setEditing(device);
+    setOpen(true);
+  };
+
+  const handleAdd = () => {
+    setEditing(null);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setEditing(null);
+    setOpen(false);
   };
 
   return (
@@ -30,14 +52,37 @@ function Devices() {
         Device Inventory
       </Typography>
 
-      <DeviceForm editing={editing} clearEdit={() => setEditing(null)} />
+      <Button variant="contained" sx={{ mb: 2 }} onClick={handleAdd}>
+        Add Device
+      </Button>
 
+      {/* Modal for Add/Edit Form */}
+      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+        <DialogTitle>{editing ? "Edit Device" : "Add Device"}</DialogTitle>
+        <DialogContent>
+          <DeviceForm
+            editing={editing}
+            clearEdit={() => setEditing(null)}
+            closeForm={handleClose}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Device Table */}
       <Table>
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell>Serial No</TableCell>
-            <TableCell>Location</TableCell>
+            <TableCell>Type</TableCell>
+            <TableCell>Facility</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Battery %</TableCell>
+            <TableCell>Last Service Date</TableCell>
+            <TableCell>AMC/CMC Status</TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -46,9 +91,14 @@ function Devices() {
             <TableRow key={device.id}>
               <TableCell>{device.name}</TableCell>
               <TableCell>{device.serial}</TableCell>
-              <TableCell>{device.location}</TableCell>
+              <TableCell>{device.type}</TableCell>
+              <TableCell>{device.facility}</TableCell>
+              <TableCell>{device.status}</TableCell>
+              <TableCell>{device.battery}</TableCell>
+              <TableCell>{device.lastServiceDate}</TableCell>
+              <TableCell>{device.amcStatus}</TableCell>
               <TableCell>
-                <Button onClick={() => setEditing(device)}>Edit</Button>
+                <Button onClick={() => handleEdit(device)}>Edit</Button>
                 <Button color="error" onClick={() => handleDelete(device.id)}>
                   Delete
                 </Button>

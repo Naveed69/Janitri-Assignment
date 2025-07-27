@@ -25,10 +25,11 @@ const installationsSlice = createSlice({
       return updated;
     },
     markInstallationComplete(state, action) {
-      const install = state.find((i) => i.id === action.payload);
-      if (install) {
-        install.status = "Completed";
-      }
+      const updated = state.map((i) =>
+        i.id === action.payload ? { ...i, status: "Completed" } : i
+      );
+      localStorage.setItem("installations", JSON.stringify(updated));
+      return updated;
     },
   },
 });

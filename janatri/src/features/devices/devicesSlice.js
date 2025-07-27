@@ -2,6 +2,7 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { deleteContractsByDeviceId } from "../contracts/contractsSlice";
 import { deleteVisitsByDeviceId } from "../serviceVisits/serviceVisitsSlice";
+
 const initialState = JSON.parse(localStorage.getItem("devices")) || [];
 
 const devicesSlice = createSlice({
@@ -9,7 +10,17 @@ const devicesSlice = createSlice({
   initialState,
   reducers: {
     addDevice: (state, action) => {
-      const newDevice = { id: nanoid(), ...action.payload };
+      const newDevice = {
+        id: nanoid(),
+        name: action.payload.name,
+        serial: action.payload.serial,
+        type: action.payload.type,
+        facility: action.payload.facility,
+        status: action.payload.status, // "Online", "Offline", "Maintenance"
+        battery: action.payload.battery, // number or string like "85%"
+        lastServiceDate: action.payload.lastServiceDate, // date string
+        amcStatus: action.payload.amcStatus, // "AMC", "CMC", or "None"
+      };
       state.push(newDevice);
       localStorage.setItem("devices", JSON.stringify(state));
     },
@@ -17,7 +28,7 @@ const devicesSlice = createSlice({
     updateDevice: (state, action) => {
       const index = state.findIndex((d) => d.id === action.payload.id);
       if (index !== -1) {
-        state[index] = action.payload;
+        state[index] = { ...action.payload };
         localStorage.setItem("devices", JSON.stringify(state));
       }
     },
@@ -32,7 +43,6 @@ const devicesSlice = createSlice({
 
 export const { addDevice, updateDevice, deleteDevice } = devicesSlice.actions;
 
-// 🔁 Thunk to handle both device and contracts deletion
 export const deleteDeviceAndContracts = (deviceId) => (dispatch) => {
   dispatch(deleteDevice(deviceId));
   dispatch(deleteContractsByDeviceId(deviceId));
