@@ -21,7 +21,7 @@ const initialForm = {
   notes: "",
 };
 
-const ServiceVisitForm = ({ editingVisit, setEditingId }) => {
+const ServiceVisitForm = ({ editingVisit, setEditingId, onClose }) => {
   const dispatch = useDispatch();
   const devices = useSelector((state) => state.devices);
   const [form, setForm] = useState(initialForm);
@@ -48,6 +48,7 @@ const ServiceVisitForm = ({ editingVisit, setEditingId }) => {
       dispatch(addServiceVisit({ ...form, id: Date.now() }));
     }
     setForm(initialForm);
+    onClose();
   };
 
   const cancelEdit = () => {

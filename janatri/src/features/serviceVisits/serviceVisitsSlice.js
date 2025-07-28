@@ -23,10 +23,12 @@ const serviceVisitsSlice = createSlice({
       },
     },
 
-    markServiceDone(state, action) {
-      const visit = state.find((v) => v.id === action.payload);
+    markServiceDone: (state, action) => {
+      const { id, attachments } = action.payload;
+      const visit = state.find((v) => v.id === id);
       if (visit) {
         visit.status = "done";
+        visit.attachments = attachments || [];
         localStorage.setItem("serviceVisits", JSON.stringify(state));
       }
     },

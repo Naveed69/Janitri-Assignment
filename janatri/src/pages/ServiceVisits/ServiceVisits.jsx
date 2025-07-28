@@ -1,8 +1,6 @@
-import React from "react";
-import ServiceVisitForm from "./components/ServiceVisitForm";
+import React, { useState } from "react";
 import ServiceVisitList from "./components/ServiceVisitList";
 import styles from "./ServiceVisits.module.scss";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const ServiceVisits = () => {
@@ -14,11 +12,11 @@ const ServiceVisits = () => {
   return (
     <div className={styles.container}>
       <h2>Service Visits</h2>
-      <ServiceVisitForm
-        editingVisit={visitToEdit}
+      {/* ✅ Removed the always-visible form here */}
+      <ServiceVisitList
         setEditingId={setEditingId}
+        editingVisit={visitToEdit}
       />
-      <ServiceVisitList setEditingId={setEditingId} />
     </div>
   );
 };
