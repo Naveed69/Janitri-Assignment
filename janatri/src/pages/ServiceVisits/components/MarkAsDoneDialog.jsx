@@ -16,7 +16,7 @@ const MarkAsDoneDialog = ({ open, onClose, onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    onSubmit(files); // pass files back to parent
+    onSubmit(files);
     onClose();
   };
 

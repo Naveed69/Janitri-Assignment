@@ -1,7 +1,5 @@
-// src/features/contracts/contractsSlice.js
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 
-// Load contracts from localStorage or default to empty array
 const initialState = JSON.parse(localStorage.getItem("contracts")) || [];
 
 const contractsSlice = createSlice({

@@ -22,7 +22,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import ServiceVisitForm from "./ServiceVisitForm"; // <-- make sure this is your form component
+import ServiceVisitForm from "./ServiceVisitForm";
 
 const ServiceVisitList = ({ setEditingId }) => {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const ServiceVisitList = ({ setEditingId }) => {
   const [open, setOpen] = useState(false);
 
   const handleOpenModal = () => {
-    setEditingId(null); // for add new
+    setEditingId(null);
     setOpen(true);
   };
 
@@ -113,8 +113,8 @@ const ServiceVisitList = ({ setEditingId }) => {
                 {visit.status !== "done" && (
                   <Button
                     onClick={() => {
-                      setMarkingId(visit.id); // store current visit id
-                      setShowDialog(true); // open the attachment modal
+                      setMarkingId(visit.id);
+                      setShowDialog(true);
                     }}
                     size="small"
                     variant="outlined"

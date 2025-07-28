@@ -1,7 +1,4 @@
-// src/features/serviceVisits/serviceVisitsSlice.js
 import { createSlice, nanoid } from "@reduxjs/toolkit";
-
-// Load from localStorage on initialization
 const initialState = JSON.parse(localStorage.getItem("serviceVisits")) || [];
 
 const serviceVisitsSlice = createSlice({

@@ -19,12 +19,11 @@ const ContractForm = ({ editingId, setEditingId, onClose }) => {
     endDate: "",
   });
 
-  const [autoType, setAutoType] = useState(null); // to track whether type should be fixed (AMC/CMC) or editable
-
+  const [autoType, setAutoType] = useState(null);
   useEffect(() => {
     if (editingContract) {
       setForm(editingContract);
-      setAutoType(null); // allow editing existing contracts
+      setAutoType(null);
     } else {
       setForm({
         deviceId: "",
@@ -40,7 +39,7 @@ const ContractForm = ({ editingId, setEditingId, onClose }) => {
     const selectedDevice = devices.find((d) => d.id === deviceId);
 
     if (selectedDevice) {
-      const deviceContractType = selectedDevice.amcStatus; // expected: "AMC" or "CMC"
+      const deviceContractType = selectedDevice.amcStatus;
 
       if (deviceContractType === "AMC" || deviceContractType === "CMC") {
         setForm({
@@ -48,7 +47,7 @@ const ContractForm = ({ editingId, setEditingId, onClose }) => {
           deviceId,
           type: deviceContractType,
         });
-        setAutoType(deviceContractType); // lock the type
+        setAutoType(deviceContractType);
       } else {
         setForm({ ...form, deviceId });
         setAutoType(null);
@@ -99,7 +98,6 @@ const ContractForm = ({ editingId, setEditingId, onClose }) => {
           </TextField>
         </Grid>
 
-        {/* Only show Type dropdown if autoType is null */}
         {!autoType && (
           <Grid item xs={12} sm={2}>
             <TextField

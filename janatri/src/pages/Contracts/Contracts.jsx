@@ -1,4 +1,3 @@
-// src/pages/Contracts/Contracts.jsx
 import React, { useState } from "react";
 import { Container, Typography, Button, Modal, Box } from "@mui/material";
 import ContractForm from "./components/ContractForm";

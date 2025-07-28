@@ -1,4 +1,3 @@
-// components/MarkAsInstalledDialog.jsx
 import {
   Dialog,
   DialogTitle,
