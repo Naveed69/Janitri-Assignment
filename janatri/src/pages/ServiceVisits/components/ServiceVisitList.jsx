@@ -131,7 +131,7 @@ const ServiceVisitList = ({ setEditingId }) => {
                       if (!file || !file.type || !file.data) return null;
 
                       return (
-                        <li key={idx}>
+                        <span key={idx}>
                           <strong>{file.name || "Unnamed file"}</strong>
                           <br />
                           {file.type.startsWith("image/") ? (
@@ -149,7 +149,7 @@ const ServiceVisitList = ({ setEditingId }) => {
                               Download
                             </a>
                           )}
-                        </li>
+                        </span>
                       );
                     })}
                   </ul>

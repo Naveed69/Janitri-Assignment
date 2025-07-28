@@ -19,6 +19,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import styles from "./Installations.module.scss";
+import MarkAsInstalledDialog from "./components/MarkAsInstalledDialog";
 
 function Installations() {
   const installations = useSelector((state) => state.installations);
@@ -46,6 +47,8 @@ function Installations() {
     setEditing(null);
     setOpen(false);
   };
+  const [showDialog, setShowDialog] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   return (
     <div className={styles.wrapper}>
@@ -81,6 +84,7 @@ function Installations() {
             <TableCell>Date</TableCell>
             <TableCell>Technician</TableCell>
             <TableCell>Status</TableCell>
+            <TableCell>Attachments</TableCell> {/* New column */}
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -101,6 +105,30 @@ function Installations() {
                   {i.status || "Pending"}
                 </span>
               </TableCell>
+
+              {/* Attachments Column */}
+              <TableCell>
+                {i.attachments?.length > 0 ? (
+                  i.attachments.map((file, idx) => (
+                    <div key={idx}>
+                      <a
+                        href={file.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "#1976d2",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        {file.name}
+                      </a>
+                    </div>
+                  ))
+                ) : (
+                  <span style={{ color: "#999" }}>No files</span>
+                )}
+              </TableCell>
+
               <TableCell>
                 <Button onClick={() => handleEdit(i)}>Edit</Button>
                 <Button
@@ -112,7 +140,10 @@ function Installations() {
                 {i.status !== "Completed" && (
                   <Button
                     color="success"
-                    onClick={() => dispatch(markInstallationComplete(i.id))}
+                    onClick={() => {
+                      setSelectedId(i.id);
+                      setShowDialog(true);
+                    }}
                   >
                     Mark Installed
                   </Button>
@@ -122,6 +153,21 @@ function Installations() {
           ))}
         </TableBody>
       </Table>
+
+      <MarkAsInstalledDialog
+        open={showDialog}
+        onClose={() => {
+          setSelectedId(null);
+          setShowDialog(false);
+        }}
+        onSubmit={(files) => {
+          dispatch(
+            markInstallationComplete({ id: selectedId, attachments: files })
+          );
+          setSelectedId(null);
+          setShowDialog(false);
+        }}
+      />
     </div>
   );
 }

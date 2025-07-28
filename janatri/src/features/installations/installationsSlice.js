@@ -24,12 +24,17 @@ const installationsSlice = createSlice({
       localStorage.setItem("installations", JSON.stringify(updated));
       return updated;
     },
-    markInstallationComplete(state, action) {
-      const updated = state.map((i) =>
-        i.id === action.payload ? { ...i, status: "Completed" } : i
-      );
-      localStorage.setItem("installations", JSON.stringify(updated));
-      return updated;
+    markInstallationComplete: (state, action) => {
+      const { id, attachments } = action.payload;
+      const item = state.find((i) => i.id === id);
+      if (item) {
+        item.status = "Completed";
+        item.attachments = attachments.map((f) => ({
+          name: f.name,
+          url: URL.createObjectURL(f),
+        }));
+        localStorage.setItem("installations", JSON.stringify(state));
+      }
     },
   },
 });
