@@ -1,8 +1,17 @@
-// src/pages/Contracts/components/ContractList.jsx
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteContract } from "../../../features/contracts/contractsSlice";
-import { Card, CardContent, Typography, IconButton, Grid } from "@mui/material";
+import {
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Typography,
+  IconButton,
+  Paper,
+  TableContainer,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -12,37 +21,56 @@ const ContractList = ({ setEditingId }) => {
   const devices = useSelector((state) => state.devices);
 
   return (
-    <Grid container spacing={2}>
-      {contracts.map((c) => {
-        const device = devices.find((d) => d.id === c.deviceId);
-        const status = new Date(c.endDate) > new Date() ? "Active" : "Expired";
+    <TableContainer component={Paper} sx={{ mt: 2 }}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Device</TableCell>
+            <TableCell>Type</TableCell>
+            <TableCell>Start Date</TableCell>
+            <TableCell>End Date</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {contracts.map((c) => {
+            const device = devices.find((d) => d.id === c.deviceId);
+            const status =
+              new Date(c.endDate) > new Date() ? "Active" : "Expired";
 
-        return (
-          <Grid item xs={12} md={6} key={c.id}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6">
-                  {device ? device.name : "N/A"}
-                </Typography>
-                <Typography variant="body2">Type: {c.type}</Typography>
-                <Typography variant="body2">Start: {c.startDate}</Typography>
-                <Typography variant="body2">End: {c.endDate}</Typography>
-                <Typography variant="body2">Status: {status}</Typography>
-                <IconButton onClick={() => setEditingId(c.id)} size="small">
-                  <EditIcon fontSize="small" />
-                </IconButton>
-                <IconButton
-                  onClick={() => dispatch(deleteContract(c.id))}
-                  size="small"
-                >
-                  <DeleteIcon fontSize="small" />
-                </IconButton>
-              </CardContent>
-            </Card>
-          </Grid>
-        );
-      })}
-    </Grid>
+            return (
+              <TableRow key={c.id}>
+                <TableCell>{device ? device.name : "N/A"}</TableCell>
+                <TableCell>{c.type}</TableCell>
+                <TableCell>{c.startDate}</TableCell>
+                <TableCell>{c.endDate}</TableCell>
+                <TableCell>
+                  <Typography
+                    color={status === "Active" ? "green" : "red"}
+                    fontWeight="bold"
+                  >
+                    {status}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <IconButton onClick={() => setEditingId(c.id)} size="small">
+                    <EditIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => dispatch(deleteContract(c.id))}
+                    size="small"
+                    color="error"
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 

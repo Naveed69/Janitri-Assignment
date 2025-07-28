@@ -11,8 +11,6 @@ const ServiceVisits = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Service Visits</h2>
-      {/* ✅ Removed the always-visible form here */}
       <ServiceVisitList
         setEditingId={setEditingId}
         editingVisit={visitToEdit}

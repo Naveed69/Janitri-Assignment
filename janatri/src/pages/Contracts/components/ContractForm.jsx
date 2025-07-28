@@ -6,7 +6,7 @@ import {
   updateContract,
 } from "../../../features/contracts/contractsSlice";
 
-const ContractForm = ({ editingId, setEditingId }) => {
+const ContractForm = ({ editingId, setEditingId, onClose }) => {
   const dispatch = useDispatch();
   const contracts = useSelector((state) => state.contracts);
   const devices = useSelector((state) => state.devices);
@@ -76,6 +76,7 @@ const ContractForm = ({ editingId, setEditingId }) => {
       endDate: "",
     });
     setAutoType(null);
+    onClose();
   };
 
   return (
@@ -135,13 +136,13 @@ const ContractForm = ({ editingId, setEditingId }) => {
             onChange={(e) => setForm({ ...form, endDate: e.target.value })}
           />
         </Grid>
-
-        <Grid item xs={12} sm={3}>
-          <Button variant="contained" type="submit" fullWidth>
-            {editingId ? "Update" : "Add"} Contract
-          </Button>
-        </Grid>
       </Grid>
+      <Button variant="contained" type="submit">
+        Save
+      </Button>
+      <Button variant="contained" onClick={onClose} color="secondary">
+        Cancel
+      </Button>
     </form>
   );
 };
